@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/MoviePagination";
 import PopularMovies from "../components/PopularMovies";
 import "../styles/trending.css";
 
@@ -19,7 +19,7 @@ const Trending = () => {
     FetchPopularMovies().then((data) => {
       setPopular(data.items);
     });
-  }, []);
+  }, [pagination]);
 
   return (
     <div style={{ marginTop: "90px" }}>
@@ -35,7 +35,7 @@ const Trending = () => {
             />
           ))}
       </div>
-      <Pagination />
+      <Pagination setPagination={setPagination} />
     </div>
   );
 };

@@ -41,7 +41,7 @@ const Navbar = () => {
     <AppBar position="fixed" sx={{ backgroundColor: "#393736 " }}>
       <Toolbar>
         <Typography variant="h6" component="div">
-          <span className="app_logo" onClick={() => window.scroll(0, 0)}>
+          <span className="app_logo" onClick={() => window.scrollTo(0, 0)}>
             MoviesHub
           </span>
         </Typography>
