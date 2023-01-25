@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -13,12 +13,16 @@ import WhatshotIcon from "@mui/icons-material/Whatshot";
 import MovieIcon from "@mui/icons-material/Movie";
 import TvIcon from "@mui/icons-material/Tv";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./header.css";
 import NavDrawer from "./NavDrawer";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(0);
+  const navigate = useNavigate();
+
+  //this is for media queries
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -26,13 +30,20 @@ const Navbar = () => {
     setValue(value);
   };
 
+  useEffect(() => {
+    if (value === 0) navigate("/");
+    else if (value === 1) navigate("/movies");
+    else if (value === 2) navigate("/series");
+    else if (value === 3) navigate("/search");
+  }, [value, navigate]);
+
   return (
     <AppBar position="fixed" sx={{ backgroundColor: "#393736 " }}>
       <Toolbar>
         <Typography variant="h6" component="div">
-          <Link to="/" className="app_logo">
+          <span className="app_logo" onClick={() => window.scroll(0, 0)}>
             MoviesHub
-          </Link>
+          </span>
         </Typography>
         {isMatch ? (
           <NavDrawer />
@@ -71,6 +82,7 @@ const Navbar = () => {
           </Tabs>
         )}
       </Toolbar>
+      {!isMatch && value === 3 && <SearchBar />}
     </AppBar>
   );
 };
