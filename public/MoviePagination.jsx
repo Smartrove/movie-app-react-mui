@@ -23,16 +23,11 @@ const PaginationContainer = () => {
   return <StyledPagination count={10} />;
 };
 
-const MoviePagination = ({
-  setPagination,
-  NumberOfPages = 900,
-  handleChange,
-}) => {
-  // const handlePaginationChange = (event, value) => {
-  // setPagination();
-  //   window.scrollTo(0, 0);
-  //   console.log(value)
-  // };
+const MoviePagination = ({ setPagination, NumberOfPages = 1000 }) => {
+  const handlePaginationChange = (event, value) => {
+    setPagination(value);
+    window.scrollTo(0, 0);
+  };
   return (
     <div
       style={{
@@ -45,7 +40,7 @@ const MoviePagination = ({
     >
       <Pagination
         count={NumberOfPages}
-        onChange={handleChange}
+        onChange={(e) => handlePaginationChange(e.target.value)}
         shape="rounded"
         color="success"
       />

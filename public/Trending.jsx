@@ -1,23 +1,18 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Pagination from "../components/MoviePagination";
-import PopularMovies from "../components/PopularMovies";
+import Pagination from "../src/components/MoviePagination";
+import PopularMovies from "../src/components/PopularMovies";
 import "../styles/trending.css";
 
 const Trending = () => {
   const [popular, setPopular] = useState([]);
   const [pagination, setPagination] = useState(1);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  // console.log(pageSize);
+  console.log(pagination);
 
   const FetchPopularMovies = async () => {
     const { data } = await axios.get(
       `https://imdb-api.com/API/MostPopularMovies/${process.env.REACT_APP_API_KEY}`
     );
-    // const { data } = await axios.get(
-    //   `https://imdb-api.com/API/Top250TVs/${process.env.REACT_APP_API_KEY}`
-    // );
     console.log(data);
     return data;
   };
@@ -25,12 +20,7 @@ const Trending = () => {
     FetchPopularMovies().then((data) => {
       setPopular(data.items);
     });
-  }, [pageNumber, pageSize]);
-
-  const handleChange = () => {
-    setPageNumber(pageNumber + 10);
-    setPageSize(pageSize + 10);
-  };
+  }, [pagination]);
 
   return (
     <div style={{ marginTop: "90px" }}>
@@ -46,7 +36,7 @@ const Trending = () => {
             />
           ))}
       </div>
-      <Pagination handleChange={handleChange} setPagination={setPagination} />
+      <Pagination setPagination={setPagination} />
     </div>
   );
 };
