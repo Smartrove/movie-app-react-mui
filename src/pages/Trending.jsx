@@ -1,42 +1,46 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Pagination from "../components/MoviePagination";
+import Pagination from "@mui/material/Pagination";
+import { Stack } from "@mui/material";
 import PopularMovies from "../components/PopularMovies";
 import "../styles/trending.css";
 
 const Trending = () => {
   const [popular, setPopular] = useState([]);
-  const [pagination, setPagination] = useState(1);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  // console.log(pageSize);
+  const [currentPage, setCurrentPage] = useState(1);
+  const popularMoviesPerPage = 16;
+  const indexOfLastMovie = currentPage * popularMoviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - popularMoviesPerPage;
+  const currentPopularMovies = popular.slice(
+    indexOfFirstMovie,
+    indexOfLastMovie
+  );
+
+  const paginate = (e, value) => {
+    setCurrentPage(value);
+
+    window.scrollTo({ top: 1800, behavior: "smooth" });
+  };
 
   const FetchPopularMovies = async () => {
     const { data } = await axios.get(
       `https://imdb-api.com/API/MostPopularMovies/${process.env.REACT_APP_API_KEY}`
     );
-    // const { data } = await axios.get(
-    //   `https://imdb-api.com/API/Top250TVs/${process.env.REACT_APP_API_KEY}`
-    // );
-    console.log(data);
+
+    // console.log(data);
     return data;
   };
   useEffect(() => {
     FetchPopularMovies().then((data) => {
       setPopular(data.items);
     });
-  }, [pageNumber, pageSize]);
-
-  const handleChange = () => {
-    setPageNumber(pageNumber + 10);
-    setPageSize(pageSize + 10);
-  };
+  }, []);
 
   return (
     <div style={{ marginTop: "90px" }}>
       <div className="popular">
-        {popular &&
-          popular.map((item) => (
+        {currentPopularMovies &&
+          currentPopularMovies.map((item) => (
             <PopularMovies
               key={item.id}
               id={item.id}
@@ -46,7 +50,19 @@ const Trending = () => {
             />
           ))}
       </div>
-      <Pagination handleChange={handleChange} setPagination={setPagination} />
+      //pagination implementation here
+      <Stack mt="50px" alignItems="center">
+        {popular.length > 16 && (
+          <Pagination
+            color="success"
+            shape="rounded"
+            count={Math.ceil(popular.length / popularMoviesPerPage)}
+            page={currentPage}
+            onChange={paginate}
+            size="large"
+          />
+        )}
+      </Stack>
     </div>
   );
 };
