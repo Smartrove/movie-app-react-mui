@@ -7,15 +7,21 @@ import "../styles/trending.css";
 
 const Trending = () => {
   const [popular, setPopular] = useState([]);
+
+  //first pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const popularMoviesPerPage = 16;
+  const popularMoviesPerPage = 20;
+
+  //pagination logic
   const indexOfLastMovie = currentPage * popularMoviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - popularMoviesPerPage;
+
+  //logic to replace the popular state at the mapping point
   const currentPopularMovies = popular.slice(
     indexOfFirstMovie,
     indexOfLastMovie
   );
-
+  //onchange function for pagination
   const paginate = (e, value) => {
     setCurrentPage(value);
 
@@ -50,7 +56,7 @@ const Trending = () => {
             />
           ))}
       </div>
-      //pagination implementation here
+      {/* //pagination implementation here */}
       <Stack mt="50px" alignItems="center">
         {popular.length > 16 && (
           <Pagination
