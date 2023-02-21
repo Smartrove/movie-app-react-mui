@@ -5,11 +5,12 @@ import { Stack } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Genres from "../components/Genres";
 
-const Movies = () => {
+const Movies = ({ item }) => {
+  // console.log(item);
+  // const { genres } = item;
   const [currentPage, setCurrentPage] = useState(1);
   const [content, setContent] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [genres, setGenres] = useState([]);
   const moviesPerPage = 20;
 
   //pagination logic
@@ -39,14 +40,7 @@ const Movies = () => {
 
   return (
     <div style={{ marginTop: "90px" }}>
-      <Genres
-        type="movie"
-        setGenres={setGenres}
-        genres={genres}
-        selectedGenres={selectedGenres}
-        setSelectedGenres={setSelectedGenres}
-        setCurrentPage={setCurrentPage}
-      />
+      <Genres type="movie" setCurrentPage={setCurrentPage} />
       <div className="popular">
         {currentMovies &&
           currentMovies.map((item) => (
