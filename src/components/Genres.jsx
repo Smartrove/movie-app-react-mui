@@ -2,11 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Chip } from "@mui/material";
 import { genreLists } from "../utils/genres";
+import { useGenres } from "../hooks/useGenre";
 
 const Genres = ({ setCurrentPage, type }) => {
   const [genres, setGenres] = useState(null);
 
   const [selectedGenres, setSelectedGenres] = useState([]);
+
+  const genreURL = useGenres(selectedGenres);
 
   //function to add from the genres
   const handleAdd = (genre) => {
@@ -22,7 +25,7 @@ const Genres = ({ setCurrentPage, type }) => {
   const fetchGenres = async () => {
     // console.log(genres);
     const response = await axios.get(
-      `https://imdb-api.com/API/InTheaters/${process.env.REACT_APP_API_KEY}`
+      `https://imdb-api.com/API/InTheaters/${process.env.REACT_APP_API_KEY}${genreURL}`
     );
 
     setGenres(response.data.items);
@@ -33,7 +36,7 @@ const Genres = ({ setCurrentPage, type }) => {
   useEffect(() => {
     fetchGenres();
     // eslint-disable-next-line
-  }, []);
+  }, [genreURL]);
   return (
     <div style={{ padding: "6px 0" }}>
       {selectedGenres &&
