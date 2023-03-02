@@ -82,7 +82,6 @@ const Navbar = () => {
           </Tabs>
         )}
       </Toolbar>
-      {!isMatch && value === 3 && <SearchBar />}
     </AppBar>
   );
 };
